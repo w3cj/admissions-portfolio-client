@@ -1,6 +1,6 @@
 import { fetchJSON, postJSON } from './fetchHelpers';
 
-const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api/v1/' : 'PRODUCTION';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api/v1/' : 'https://galvanize-admissions-portfolio-api.galvanize.network/api/v1/';
 
 /* eslint-disable camelcase */
 export default class API {

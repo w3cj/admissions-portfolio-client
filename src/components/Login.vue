@@ -31,7 +31,7 @@ export default {
       if (window.location.hostname === 'localhost') {
         window.location = 'http://localhost:3000/auth/google';
       } else {
-        window.location = 'PRODUCTION';
+        window.location = 'https://galvanize-admissions-portfolio-api.galvanize.network/auth/google';
       }
     } else if (this.$route.params.token === 'error') {
       this.error = this.$route.query.error;
