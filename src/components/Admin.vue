@@ -104,6 +104,14 @@
                 />
               </v-col>
             </v-row>
+            <v-row>
+              <v-col xs6>
+                <v-radio label="Ascending" primary v-model="sortOrder" value="ascending" light />
+              </v-col>
+              <v-col xs6>
+                <v-radio label="Descending" primary v-model="sortOrder" value="descending" light />
+              </v-col>
+            </v-row>
             <v-row row>
               <v-col xs12>
                 <v-text-field
@@ -120,7 +128,21 @@
     <v-expansion-panel expand class="applicant-list mt-4 mb-4" v-if="!loading">
       <v-expansion-panel-content v-for="applicant in sortedApplicants" :key="applicant._id" v-model="applicant.view">
         <div slot="header">
-          <h5>{{applicant.last_name}}, {{applicant.first_name}}</h5>
+          <h5>
+            {{applicant.last_name}}, {{applicant.first_name}}
+            <span v-for="portfolio in portfolios[applicant._id]">
+              <v-chip
+                v-if="portfolio.update_date"
+                v-bind:class="{
+                    green: progress[applicant._id] == 100,
+                    orange: progress[applicant._id] != 100
+                }"
+                class="white--text">
+                {{ progress[applicant._id] == 100 ? 'Submitted:' : 'Updated:' }} {{portfolio.update_date | moment}}
+                <v-icon right>today</v-icon>
+              </v-chip>
+            </span>
+          </h5>
           <v-progress-linear
             :value="progress[applicant._id]"
             height="15"
@@ -136,10 +158,6 @@
             <p><a v-bind:href="getPortfolioURL(portfolio.portfolio_id)" target="_blank">{{getPortfolioURL(portfolio.portfolio_id)}}</a></p>
             <v-chip class="indigo white--text">
               Created: {{portfolio.created | moment}}
-              <v-icon right>today</v-icon>
-            </v-chip>
-            <v-chip v-if="portfolio.update_date" class="orange white--text">
-              Updated: {{portfolio.update_date | moment}}
               <v-icon right>today</v-icon>
             </v-chip>
             <v-expansion-panel expand>
@@ -195,7 +213,8 @@ export default {
   data() {
     return {
       loading: true,
-      orderBys: ['Last Name', 'Progress', 'Created'],
+      orderBys: ['Last Name', 'Progress', 'Created', 'Updated'],
+      sortOrder: 'ascending',
       orderBy: 'Last Name',
       portfolios: [],
       applicants: [],
@@ -240,6 +259,14 @@ export default {
           if (a_date > b_date) return 1;
           return 0;
         });
+      } else if (this.orderBy === 'Updated') {
+        sorted = this.applicants.sort((a, b) => {
+          const a_date = moment(this.portfolios[a._id][0].update_date).unix();
+          const b_date = moment(this.portfolios[b._id][0].update_date).unix();
+          if (a_date < b_date) return -1;
+          if (a_date > b_date) return 1;
+          return 0;
+        });
       }
 
       if (this.search.trim() !== '') {
@@ -247,7 +274,7 @@ export default {
         return sorted.filter(a => a.first_name.match(regExp) || a.last_name.match(regExp));
       }
 
-      return sorted;
+      return this.sortOrder === 'ascending' ? sorted : sorted.reverse();
     },
   },
   mounted() {
