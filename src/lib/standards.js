@@ -20,6 +20,9 @@ export default [{
   }, {
     name: 'Create a project using HTML and CSS with JavaScript or jQuery',
     content: 'Create a project using HTML, CSS, JavaScript or JQuery, push your code to github, and submit the URL of your repo.',
+  }, {
+    name: 'Demonstrate Your Active Interest in Coding',
+    content: 'Create an artifact (a youtube video, an essay, or something else) where you demonstrate your active interest in coding.',
   }],
 }, {
   id: 1,
@@ -46,7 +49,7 @@ export default [{
 }, {
   id: 2,
   title: 'The prospective student demonstrates a desire to create things',
-  why: 'Good developers must be willing to try new things and want to bring new things into the world. We want to see what',
+  why: 'Good developers must be willing to try new things and want to bring new things into the world.',
   options: [{
     name: 'Previous Creative Project',
     content: 'Send us a previous creative project, or a summary of the project.',
