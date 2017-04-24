@@ -79,8 +79,9 @@
                         v-model="standard.url"
                         name="url"
                         label="URL"
-                        placeholder="Enter a URL if you have one"
                         prepend-icon="link"
+                        v-bind:rules="urlRules"
+                        type="url"
                       ></v-text-field>
                     </v-col>
                     <v-col xs2>
@@ -92,16 +93,15 @@
                         name="details"
                         label="Details"
                         prepend-icon="description"
-                        placeholder="Enter your submission or a description here"
                         multi-line
                       ></v-text-field>
                     </v-col>
                     <v-col xs2>
                     </v-col>
                     <v-col xs10>
-                      <v-btn class="orange darken-1" v-on:click.native="saveStandard(standard)">Save</v-btn>
+                      <v-btn class="orange darken-1" v-on:click.native="saveStandard(standard)" :disabled="!validStandard(standard)">Save</v-btn>
                       <v-dialog v-model="standard.finishedSubmitting" overlay>
-                        <v-btn slot="activator" class="green darken-1" v-if="standard.url || standard.details">Submit</v-btn>
+                        <v-btn slot="activator" class="green darken-1" v-if="validStandard(standard) && (standard.url || standard.details)" :disabled="!validStandard(standard)">Submit</v-btn>
                         <v-card-row>
                           <v-card-title>Are you sure?</v-card-title>
                         </v-card-row>
@@ -171,7 +171,10 @@
 </template>
 
 <script>
+import isUri from 'isuri';
 import API from '../lib/API';
+
+const httpRegex = isUri.createUriRegex({ scheme: [/https?/] });
 
 /* eslint-disable no-param-reassign */
 export default {
@@ -218,6 +221,12 @@ export default {
       standards: API.getStandards(),
       snackbar: false,
       snackbar_message: '',
+      urlRules: [(url) => {
+        if (url.trim() && !httpRegex.test(url)) {
+          return 'Invalid URL';
+        }
+        return true;
+      }],
     };
   },
   methods: {
@@ -230,7 +239,12 @@ export default {
           this.finishLoading(standard, 'Standard Started');
         });
     },
+    validStandard(standard) {
+      return !standard.url.trim() || httpRegex.test(standard.url);
+    },
     saveStandard(standard) {
+      if (!this.validStandard(standard)) return;
+
       standard.loading = true;
       API
         .saveStandard(this.portfolio.portfolio_id, standard.id, {
@@ -243,6 +257,8 @@ export default {
         });
     },
     submitStandard(standard) {
+      if (!this.validStandard(standard)) return;
+
       standard.loading = true;
       API
         .submitStandard(this.portfolio.portfolio_id, standard.id, {

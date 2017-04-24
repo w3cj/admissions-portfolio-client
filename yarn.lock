@@ -3283,6 +3283,12 @@ istanbul@^0.4.0:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
+isuri@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/isuri/-/isuri-2.0.3.tgz#3437121db2fe65af0ba080b7e1a8636f632cca91"
+  dependencies:
+    rfc-3986 "1.0.1"
+
 jodid25519@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/jodid25519/-/jodid25519-1.0.2.tgz#06d4912255093419477d425633606e0e90782967"
@@ -5186,6 +5192,10 @@ restore-cursor@^2.0.0:
   dependencies:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
+
+rfc-3986@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rfc-3986/-/rfc-3986-1.0.1.tgz#eeeb88342fadbe8027c0f36ada921a13e6f96206"
 
 right-align@^0.1.1:
   version "0.1.3"
