@@ -1,6 +1,6 @@
 import { postJSON } from './fetchHelpers';
 
-const AUTH_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/auth/' : 'https://galvanize-admissions-portfolio-api.galvanize.network/auth/';
+const AUTH_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/auth/' : 'https://galvanize-admissions-portfolio-api.galvanize.network/auth/';
 
 /* eslint-disable camelcase */
 export default class Auth {

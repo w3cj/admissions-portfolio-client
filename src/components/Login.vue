@@ -29,7 +29,7 @@ export default {
   mounted() {
     if (!this.$route.params.token) {
       if (window.location.hostname === 'localhost') {
-        window.location = 'http://localhost:3000/auth/google';
+        window.location = 'http://localhost:5000/auth/google';
       } else {
         window.location = 'https://galvanize-admissions-portfolio-api.galvanize.network/auth/google';
       }

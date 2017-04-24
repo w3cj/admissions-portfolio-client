@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+
 export function checkThrowError(res) {
   if (res.status !== 200) {
     return res.json().then((json) => {
@@ -24,7 +26,7 @@ export function postJSON(endpoint, body, headers) {
 
   headers['Content-Type'] = 'application/json';
 
-  if (localStorage.token) {
+  if (!headers.Authorization && localStorage.token) {
     headers.Authorization = `Bearer ${localStorage.token}`;
   }
 

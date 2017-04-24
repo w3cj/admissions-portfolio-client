@@ -1,0 +1,3 @@
+.expansion-panel__body:last-child {
+  border-bottom: none;
+}

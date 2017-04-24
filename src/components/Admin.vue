@@ -72,7 +72,7 @@
     <center v-if="loading" class="mt-4">
       <v-progress-circular indeterminate class="green--text" />
     </center>
-    <div v-if="!loading">
+    <div v-if="!loading" class="mt-2">
       <h6>Possible Statuses:</h6>
       <v-chip label class="red white--text">
         <v-icon left>report_problem</v-icon>Not Started
@@ -86,9 +86,39 @@
       <v-chip label class="green white--text">
         <v-icon left>check</v-icon>Submitted
       </v-chip>
+      <v-card class="grey lighten-4 elevation-0">
+        <v-card-text>
+          <v-container fluid>
+            <v-row>
+              <v-col xs3>
+                <v-subheader v-text="'Order By'" />
+              </v-col>
+              <v-col xs9>
+                <v-select
+                  v-bind:items="orderBys"
+                  v-model="orderBy"
+                  label="Order By"
+                  light
+                  single-line
+                  auto
+                />
+              </v-col>
+            </v-row>
+            <v-row row>
+              <v-col xs12>
+                <v-text-field
+                  name="search"
+                  v-model="search"
+                  label="Search Applicants"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+      </v-card>
     </div>
-    <v-expansion-panel expand class="applicant-list mt-4" v-if="!loading">
-      <v-expansion-panel-content v-for="applicant in applicants" :key="applicant._id" v-model="applicant.view">
+    <v-expansion-panel expand class="applicant-list mt-4 mb-4" v-if="!loading">
+      <v-expansion-panel-content v-for="applicant in sortedApplicants" :key="applicant._id" v-model="applicant.view">
         <div slot="header">
           <h5>{{applicant.last_name}}, {{applicant.first_name}}</h5>
           <v-progress-linear
@@ -102,10 +132,14 @@
         <v-card>
           <v-btn @click.native="createPortfolio(applicant)" class="orange darken-1" v-if="!portfolios[applicant._id] || portfolios[applicant._id].length == 0">Create Portfolio</v-btn>
           <div v-for="portfolio in portfolios[applicant._id]">
-            <h5 class="mt-2">{{applicant.email}}</h5>
+            <h5 class="mt-2"><strong>Email: </strong>{{applicant.email}}</h5>
             <p><a v-bind:href="getPortfolioURL(portfolio.portfolio_id)" target="_blank">{{getPortfolioURL(portfolio.portfolio_id)}}</a></p>
             <v-chip class="indigo white--text">
               Created: {{portfolio.created | moment}}
+              <v-icon right>today</v-icon>
+            </v-chip>
+            <v-chip v-if="portfolio.update_date" class="orange white--text">
+              Updated: {{portfolio.update_date | moment}}
               <v-icon right>today</v-icon>
             </v-chip>
             <v-expansion-panel expand>
@@ -115,23 +149,27 @@
                     <v-icon left>report_problem</v-icon>Not Started
                   </v-chip>
                   <v-chip label class="grey white--text" v-if="(!standard.url && !standard.details) && standard.start_date">
-                    <v-icon left>flag</v-icon>Started
+                    <v-icon left>flag</v-icon>Started: {{ standard.start_date | moment }}
                   </v-chip>
                   <v-chip label class="orange white--text" v-if="(standard.url || standard.details) && standard.update_date && !standard.submit_date">
-                    <v-icon left>save</v-icon>Saved {{ standard.update_date | moment }}
+                    <v-icon left>save</v-icon>Saved: {{ standard.update_date | moment }}
                   </v-chip>
                   <v-chip label class="green white--text" v-if="standard.submit_date">
-                    <v-icon left>check</v-icon>Submitted
+                    <v-icon left>check</v-icon>Submitted: {{ standard.submit_date | moment }}
                   </v-chip>
                   <span class="standard-title">{{standards[standard.standard_id].title}}</span>
                 </div>
                 <v-card class="mt-2">
-                  <h6 v-if="!standard.details && !standard.url">No submission yet.</h6>
-                  <div v-if="standard.details">
-                    <h6>Submission:</h6>
-                    <pre class="details grey lighten-3">{{standard.details}}</pre>
+                  <h6 v-if="!standard.details && !standard.url && standard.option == -1">No submission yet.</h6>
+                  <div v-if="standard.option != -1">
+                    <h6>Selected Option:</h6>
+                    <pre class="option grey lighten-3">{{standards[standard.standard_id].options[standard.option].name}}</pre>
                   </div>
-                  <div v-if="standard.url" class="mt-1">
+                  <div v-if="standard.details" class="mt-3">
+                    <h6>Submission:</h6>
+                    <pre class="option grey lighten-3">{{standard.details}}</pre>
+                  </div>
+                  <div v-if="standard.url" class="mt-3">
                     <h6>URL:</h6>
                     <a v-bind:href="standard.url" target="_blank">{{standard.url}}</a>
                   </div>
@@ -157,8 +195,11 @@ export default {
   data() {
     return {
       loading: true,
+      orderBys: ['Last Name', 'Progress', 'Created'],
+      orderBy: 'Last Name',
       portfolios: [],
       applicants: [],
+      search: '',
       progress: {},
       standards: API.getStandards(),
       create: false,
@@ -174,6 +215,39 @@ export default {
   filters: {
     moment(date) {
       return moment(date).calendar();
+    },
+  },
+  computed: {
+    sortedApplicants() {
+      let sorted = this.applicants;
+      if (this.orderBy === 'Last Name') {
+        sorted = this.applicants.sort((a, b) => {
+          if (a.last_name < b.last_name) return -1;
+          if (a.last_name > b.last_name) return 1;
+          return 0;
+        });
+      } else if (this.orderBy === 'Progress') {
+        sorted = this.applicants.sort((a, b) => {
+          if (this.progress[a._id] < this.progress[b._id]) return -1;
+          if (this.progress[a._id] > this.progress[b._id]) return 1;
+          return 0;
+        });
+      } else if (this.orderBy === 'Created') {
+        sorted = this.applicants.sort((a, b) => {
+          const a_date = moment(this.portfolios[a._id][0].created).unix();
+          const b_date = moment(this.portfolios[b._id][0].created).unix();
+          if (a_date < b_date) return -1;
+          if (a_date > b_date) return 1;
+          return 0;
+        });
+      }
+
+      if (this.search.trim() !== '') {
+        const regExp = new RegExp(this.search, 'gi');
+        return sorted.filter(a => a.first_name.match(regExp) || a.last_name.match(regExp));
+      }
+
+      return sorted;
     },
   },
   mounted() {

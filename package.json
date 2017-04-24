@@ -11,9 +11,11 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "moment": "^2.18.1",
     "vue": "^2.2.6",
-    "vue-router": "^2.3.1"
+    "vue-router": "^2.3.1",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -88,6 +90,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie < 8"
   ]
 }

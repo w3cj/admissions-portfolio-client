@@ -36,7 +36,7 @@
       <h3>What happens after I submit my portfolio?</h3>
       <p>Completing the Admissions Portfolio will take you between 8-12 hours. If the work in your portfolio demonstrates that you have the skills described in the standards, you will be invited to the final step in our interview process, a technical discussion with an instructor. If the work in your portfolio does not demonstrate the skills described in the standards, we’ll send you notes on what to improve, and you’ll be able to make changes and submit your portfolio again.</p>
       <h3>Portfolio Standards</h3>
-      <v-expansion-panel expand>
+      <v-expansion-panel expand class="mb-4">
         <v-expansion-panel-content v-for="(standard, i) in standards" :key="i">
           <div slot="header">
             <h5>
