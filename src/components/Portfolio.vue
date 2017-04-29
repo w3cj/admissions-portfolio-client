@@ -22,19 +22,21 @@
     <div v-if="!loading && !error">
       <h2>Hello {{applicant.first_name}} {{applicant.last_name}}!</h2>
       <div v-if="!submittedAll">
-        <p>Welcome! Now that you’ve completed the initial interview, it is time for you to assemble your Admissions Portfolio. In completing this portfolio, you will demonstrate you have, or can acquire, the skills, habits and mindsets of a successful Web Development Immersive Student.</p>
+        <p>Welcome! In completing this portfolio, you will demonstrate you have, or can acquire, the skills, habits and mindsets of a successful Web Development Immersive Student.</p>
         <h3>How does this work? </h3>
-        <p>For each of the 4 Standards below, you will select one option for how to demonstrate the skill described in the standard. If you would prefer to demonstrate the standard in a way other than the options described, you can create and submit an alternative artifact. </p>
+        <p>For each of the 3 Standards below, you will select one option for how to demonstrate the skill described in the standard. If you would prefer to demonstrate the standard in a way other than the options described, you can create and submit an alternative document that demonstrates your skill in this area.</p>
         <h3>Why do I have to submit a portfolio?</h3>
         <p>Instead of a ‘one-size fits all’ assessment to determine whether or not you have the skills described in our standards, we want to offer you different options for proving your competency.
-          Completing work for the portfolio also requires that you engage in self-directed learning, which is an essential skill for modern web developers. If you would prefer an alternative assessment, you can opt to compete the Galvanize Web Development Immersive Technical Challenge instead of this portfolio.</p>
+          Completing work for the portfolio also requires that you engage in self-directed learning, which is an essential skill for modern web developers.</p>
       </div>
       <div v-else>
         <h3>Portfolio Status</h3>
         <p><v-icon large class="green--text text--darken-2">check_circle</v-icon> Submitted</p>
       </div>
       <h3>What happens after I submit my portfolio?</h3>
-      <p>Completing the Admissions Portfolio will take you between 8-12 hours. If the work in your portfolio demonstrates that you have the skills described in the standards, you will be invited to the final step in our interview process, a technical discussion with an instructor. If the work in your portfolio does not demonstrate the skills described in the standards, we’ll send you notes on what to improve, and you’ll be able to make changes and submit your portfolio again.</p>
+      <p>Completing the Admissions Portfolio will take you between 5-10 hours. If the work in your portfolio demonstrates that you have the skills described in the standards, you will be invited to the final step in our interview process, a technical discussion with an instructor. If the work in your portfolio does not demonstrate the skills described in the standards, we’ll send you notes on what to improve, and you’ll be able to make changes and submit your portfolio again.</p>
+      <h3>How do I know I'm on the right track?</h3>
+      <p>Take a look at the <a href="https://docs.google.com/document/d/1qF41j_-hlCwKKl1o9CmgLcK-QkM8w5VJnCIYZuXoG7A" target="_blank">Admissions Portfolio Scoring Rubric.</a></p>
       <h3>Portfolio Standards</h3>
       <v-expansion-panel expand class="mb-4">
         <v-expansion-panel-content v-for="(standard, i) in standards" :key="i">
@@ -181,7 +183,7 @@ export default {
   name: 'portfolio',
   computed: {
     submittedAll() {
-      return this.standards.filter(s => s.submitted).length === 4;
+      return this.standards.filter(s => !s.submitted).length === 0;
     },
   },
   mounted() {

@@ -22,7 +22,7 @@ export default [{
     content: 'Create a project using HTML, CSS, JavaScript or JQuery, push your code to github, and submit the URL of your repo.',
   }, {
     name: 'Demonstrate Your Active Interest in Coding',
-    content: 'Create an artifact (a youtube video, an essay, or something else) where you demonstrate your active interest in coding.',
+    content: 'Create a youtube video, an essay, or something else where you demonstrate your active interest in coding.',
   }],
 }, {
   id: 1,
@@ -30,7 +30,7 @@ export default [{
   why: 'Software development is about solving problems. Regardless of the programming language or technology, a successful developer needs to have good problem solving skills. Not even 20+ year senior devs can write code that works the first time every time. There are bugs and unforeseeable hurdles in the process and success is about debugging the code quickly and efficiently.',
   options: [{
     name: 'Logic Puzzle',
-    content: 'Solve one standard logic puzzle and submit your solution. You can find an explanation of <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/how-to-solve-logic-problems.png" target="_blank">how to solve this type of logic puzzle here</a> and <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/logic_puzzles_2014.png" target="_blank">sample problems here</a>.',
+    content: 'Solve one standard logic puzzle, and submit your solution and an explanation of how you approached the problem. You can find an explanation of <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/how-to-solve-logic-problems.png" target="_blank">how to solve this type of logic puzzle here</a> and <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/logic_puzzles_2014.png" target="_blank">sample problems here</a>.',
   }, {
     name: 'Describe a Process',
     content: `Submit a description of your process for solving for one of these problems:
@@ -41,10 +41,10 @@ export default [{
 `,
   }, {
     name: 'Solve a Project Euler Problem',
-    content: 'Solve one Problem from <a href="https://projecteuler.net/archives" target="_blank">Project Euler</a> and submit your solution.',
+    content: 'Solve one Problem from <a href="https://projecteuler.net/archives" target="_blank">Project Euler</a> and submit your solution and an explanation of how you approached the problem.',
   }, {
     name: 'Demonstrate Your Problem Solving Skills',
-    content: 'Create an artifact (a youtube video, an essay, or something else) where you demonstrate your problem solving skills.',
+    content: 'Create a youtube video, an essay, or something else where you demonstrate your problem solving skills.',
   }],
 }, {
   id: 2,
@@ -61,22 +61,8 @@ export default [{
 <li>Write and record a song</li>
 <li>Complete a craft project</li>
 <li>Complete an artistic/graphic design project</li>
-<li>Cook a recipe you haven’t tried before</li>
+<li>Create your own recipe and publish a 'how to'</li>
 </ul>
 `,
-  }],
-}, {
-  id: 3,
-  title: 'The prospective student demonstrates grit and resilience',
-  why: 'As a WDI student, resiliency is a quality that you will need every day. Developers make mistakes in order to learn, and being able to bounce back from failures will help you improve. With the stress of the course, resiliency is the only way to keep stress levels balanced. The process of web development also requires grit, since so much time is spent solving errors.',
-  options: [{
-    name: 'Grit Scale Assessment',
-    content: 'Take the <a href="http://www.sas.upenn.edu/~duckwort/images/12-item%20Grit%20Scale.05312011.pdf" target="_blank">Grit Scale Assessment</a> and score your results (please answer the questions honestly). After you’ve tabulated your results, do some research on the correlation between grit and student success in school. If you scored low on the Grit Scale, write an explanation on how you will increase your ‘grittiness’ prior to your first day as a Galvanize Student. If you scored high on the grit scale, write an explanation of how your grit and resilience has helped you in the past, and how you will use it during tough times in the Web Development Immersive Program. If you scored in the middle, talk about your ‘grittiness’ strengths and areas for improvement.',
-  }, {
-    name: 'Create an Artifact about Grit or Resiliency',
-    content: 'Create an artifact (a youtube video, an essay, or something else) where you describe the mindsets, skills and habits you have that help you be gritty and resilient in when you face adversity. Also, discuss your areas for improvement.',
-  }, {
-    name: 'Write an Essay on Growth Mindset',
-    content: 'Write a short essay explaining what Growth Mindset means to you. If you need to learn more about Growth Mindset, check out <a href="https://hbr.org/2016/01/what-having-a-growth-mindset-actually-means" target="_blank">this article</a>, <a href="http://choiceschools.com/wp-content/uploads/2016/02/10-Growth-Mindset-Statements.jpg" target="_blank">this infographic</a> or find another resource based on the work of Dr. Carol Dweck.',
   }],
 }];

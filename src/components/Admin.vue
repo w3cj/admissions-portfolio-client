@@ -161,7 +161,7 @@
               <v-icon right>today</v-icon>
             </v-chip>
             <v-expansion-panel expand>
-              <v-expansion-panel-content v-for="standard in portfolio.standards" :key="standard.standard_id">
+              <v-expansion-panel-content v-for="standard in portfolio.standards" :key="standard.standard_id" v-if="standards[standard.standard_id]">
                 <div slot="header">
                   <v-chip label class="red white--text" v-if="!standard.start_date">
                     <v-icon left>report_problem</v-icon>Not Started
@@ -298,14 +298,18 @@ export default {
             this.progress[p.applicant_id] = Object.keys(p.standards).reduce((total, id) => {
               const standard = p.standards[id];
               if (standard.submitted) {
-                total += 25;
+                total += 33;
               } else if (standard.url || standard.details) {
-                total += 12.5;
+                total += 16.5;
               } else if (standard.update_date) {
-                total += 2;
+                total += 5;
               }
               return total;
             }, 0);
+
+            if (this.progress[p.applicant_id] === 99) {
+              this.progress[p.applicant_id] = 100;
+            }
 
             return all;
           }, {});
