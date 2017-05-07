@@ -12,6 +12,11 @@ Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 
+if (localStorage.version !== '1.1.0') {
+  localStorage.version = '1.1.0';
+  window.location.reload(true);
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
