@@ -231,8 +231,8 @@ export default {
     return {
       loading: true,
       orderBys: ['Last Name', 'Progress', 'Created', 'Updated'],
-      sortOrder: 'ascending',
-      orderBy: 'Last Name',
+      sortOrder: 'descending',
+      orderBy: 'Progress',
       portfolios: [],
       applicants: [],
       search: '',
