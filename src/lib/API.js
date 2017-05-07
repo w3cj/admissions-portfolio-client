@@ -23,6 +23,9 @@ export default class API {
   static getApplicant(applicantId) {
     return fetchJSON(`${API_URL}applicant/${applicantId}`);
   }
+  static archiveApplicant(applicantId) {
+    return postJSON(`${API_URL}applicant/${applicantId}/archive`);
+  }
   static startStandard(portfolioId, standardId, option) {
     return postJSON(`${API_URL}portfolio/${portfolioId}/standard/${standardId}/${option}/start`);
   }

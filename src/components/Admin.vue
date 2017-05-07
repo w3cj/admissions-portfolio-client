@@ -194,10 +194,27 @@
                 </v-card>
               </v-expansion-panel-content>
             </v-expansion-panel>
+            <v-btn error @click.native="archiveApplicantDialog($event, applicant)">Archive Applicant<v-icon right>delete</v-icon></v-btn>
           </div>
         </v-card>
       </v-expansion-panel-content>
     </v-expansion-panel>
+    <v-dialog v-model="archiveDialog">
+      <v-card>
+        <v-card-row>
+          <v-card-title>Are you sure?</v-card-title>
+        </v-card-row>
+        <v-card-row>
+          <v-card-text>Are you sure you want to archive the applicant <strong>{{archiveApplicant.last_name}}, {{archiveApplicant.first_name}}</strong>.</v-card-text>
+        </v-card-row>
+        <center v-if="archiving">
+          <v-progress-circular indeterminate class="green--text" />
+        </center>
+        <v-card-row actions>
+          <v-btn v-if="!archiving" class="green--text darken-1" flat="flat" @click.native="doArchive($event, archiveApplicant)">Yes</v-btn>
+        </v-card-row>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -224,6 +241,9 @@ export default {
       create: false,
       creatingApplicant: false,
       createError: false,
+      archiveDialog: false,
+      archiveApplicant: {},
+      archiving: false,
       applicant: {
         first_name: '',
         last_name: '',
@@ -351,6 +371,25 @@ export default {
     },
     getPortfolioURL(portfolio_id) {
       return `${window.location.origin}/#/portfolio/${portfolio_id}`;
+    },
+    archiveApplicantDialog(event, applicant) {
+      event.stopPropagation();
+      this.archiveDialog = true;
+      this.archiveApplicant = applicant;
+    },
+    doArchive(event, applicant) {
+      event.stopPropagation();
+      this.archiving = true;
+      API
+        .archiveApplicant(applicant._id)
+        .then(() => {
+          setTimeout(() => {
+            const index = this.applicants.indexOf(applicant);
+            this.applicants.splice(index, 1);
+            this.archiving = false;
+            this.archiveDialog = false;
+          }, 800);
+        });
     },
   },
 };

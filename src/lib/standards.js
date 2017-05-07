@@ -13,7 +13,7 @@ export default [{
 `,
   }, {
     name: 'Spend at least five hours learning HTML, CSS and JavaScript',
-    content: 'Spend at least five hours (the hours can be spread out over several days) learning HTML, CSS and JavaScript on <a href="https://www.freecodecamp.com/" target="_blank">FreeCodeCamp</a>, <a href="https://www.codecademy.com/" target="_blank">Code Academy</a>, <a href="http://www.theodinproject.com/courses?ref=home" target="_blank">The Odin Project</a>, <a href="https://teamtreehouse.com/" target="_blank">Team TreeHouse</a>, <a href="https://www.udacity.com/" target="_blank">Udacity</a> or another online-learning platform. Keep a learning journal that describes what you’ve learned, what was easy for you and what was a challenge. If you complete a project, figure out a way to share your code.',
+    content: 'Demonstrate that you’ve spent at least five hours learning HTML, CSS and JavaScript. If you haven’t already starting learning these topics, check out <a href="https://www.freecodecamp.com/" target="_blank">FreeCodeCamp</a>, <a href="https://www.codecademy.com/" target="_blank">Code Academy</a>, <a href="http://www.theodinproject.com/courses?ref=home" target="_blank">The Odin Project</a>, <a href="https://teamtreehouse.com/" target="_blank">Team TreeHouse</a>, <a href="https://www.udacity.com/" target="_blank">Udacity</a> or another online-learning platform. Keep a learning journal that describes what you’ve learned, what was easy for you and what was a challenge.',
   }, {
     name: 'Attend at least 2 meetups geared toward people learning to code',
     content: 'Attend at least <a href="https://www.meetup.com/find/tech/?allMeetups=false&radius=50&userFreeform=80202&gcResults=Denver%2C+CO+80202%2C+USA%3AUS%3AColorado%3ADenver+County%3ADenver%3Anull%3A80202%3A39.7541032%3A-105.00022419999999&change=yes&sort=recommended&eventFilter=mysugg" target="_blank">2 meetups</a> geared toward people who are learning to code. Keep a journal describing what you you learned, and what you want to learn more about. Check out this <a href="https://docs.google.com/document/d/11wG0LD31DDNUEbgrmQcnkOtTk79g0G8HOpgVgV_jyFQ/edit?usp=sharing" target="_blank">example of a learning journal</a>.',
@@ -61,7 +61,7 @@ export default [{
 <li>Write and record a song</li>
 <li>Complete a craft project</li>
 <li>Complete an artistic/graphic design project</li>
-<li>Create your own recipe and publish a 'how to'</li>
+<li>Create your own recipe and publish a 'how to' make this dish</li>
 </ul>
 `,
   }],

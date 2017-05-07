@@ -16,6 +16,7 @@
     </main>
     <v-footer class="footer grey darken-3">
       <small>© 2017 Galvanize, Inc. All Rights Reserved.</small>
+      <v-btn class="orange darken-1" v-if="!token" :router="true" :to="{ name: 'login' }">Admissions Login</v-btn></a>
     </v-footer>
   </v-app>
 </template>
@@ -23,6 +24,11 @@
 <script>
 export default {
   name: 'app',
+  data() {
+    return {
+      token: localStorage.token,
+    };
+  },
 };
 </script>
 
