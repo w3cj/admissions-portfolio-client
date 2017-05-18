@@ -13,13 +13,13 @@ export default [{
 `,
   }, {
     name: 'Spend at least five hours learning HTML, CSS and JavaScript',
-    content: 'Demonstrate that you’ve spent at least five hours learning HTML, CSS and JavaScript. If you haven’t already starting learning these topics, check out <a href="https://www.freecodecamp.com/" target="_blank">FreeCodeCamp</a>, <a href="https://www.codecademy.com/" target="_blank">Code Academy</a>, <a href="http://www.theodinproject.com/courses?ref=home" target="_blank">The Odin Project</a>, <a href="https://teamtreehouse.com/" target="_blank">Team TreeHouse</a>, <a href="https://www.udacity.com/" target="_blank">Udacity</a> or another online-learning platform. Keep a learning journal that describes what you’ve learned, what was easy for you and what was a challenge.',
+    content: 'Demonstrate that you’ve spent at least five hours learning HTML, CSS, JavaScript or another programming language like Python, R or Ruby. If you haven’t already starting learning these topics, check out <a href="https://www.freecodecamp.com/" target="_blank">FreeCodeCamp</a>, <a href="https://www.codecademy.com/" target="_blank">Code Academy</a>, <a href="http://www.theodinproject.com/courses?ref=home" target="_blank">The Odin Project</a>, <a href="https://teamtreehouse.com/" target="_blank">Team TreeHouse</a>, <a href="https://www.udacity.com/" target="_blank">Udacity</a> or another online-learning platform. Keep a learning journal that describes what you’ve learned, what was easy for you and what was a challenge.',
   }, {
     name: 'Attend at least 2 meetups geared toward people learning to code',
     content: 'Attend at least <a href="https://www.meetup.com/find/tech/?allMeetups=false&radius=50&userFreeform=80202&gcResults=Denver%2C+CO+80202%2C+USA%3AUS%3AColorado%3ADenver+County%3ADenver%3Anull%3A80202%3A39.7541032%3A-105.00022419999999&change=yes&sort=recommended&eventFilter=mysugg" target="_blank">2 meetups</a> geared toward people who are learning to code. Keep a journal describing what you you learned, and what you want to learn more about. Check out this <a href="https://docs.google.com/document/d/11wG0LD31DDNUEbgrmQcnkOtTk79g0G8HOpgVgV_jyFQ/edit?usp=sharing" target="_blank">example of a learning journal</a>.',
   }, {
     name: 'Create a project using HTML and CSS with JavaScript or jQuery',
-    content: 'Create a project using HTML, CSS, JavaScript or JQuery, push your code to github, and submit the URL of your repo.',
+    content: 'Create a project using HTML, CSS, JavaScript, JQuery or another programming language, push your code to github, and submit the URL of your repo.',
   }, {
     name: 'Demonstrate Your Active Interest in Coding',
     content: 'Create a youtube video, an essay, or something else where you demonstrate your active interest in coding.',
@@ -52,7 +52,7 @@ export default [{
   why: 'Good developers must be willing to try new things and want to bring new things into the world.',
   options: [{
     name: 'Previous Creative Project',
-    content: 'Send us a previous creative project, or a summary of the project.',
+    content: 'Send us a previous creative project, or a summary of the project. We really like seeing pictures and videos of things you’ve built.',
   }, {
     name: 'Start and Complete Creative Project',
     content: `Start and complete a new creative project. Potential ideas:
