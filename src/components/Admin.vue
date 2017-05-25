@@ -125,7 +125,7 @@
         </v-card-text>
       </v-card>
     </div>
-    <v-tabs class="mt-2" grow icons>
+    <v-tabs v-if="!loading" class="mt-2" grow icons>
       <v-tab-item href="#active-applicants" class="grey darken-3" slot="activators">
         Active
         <v-icon>list</v-icon>
@@ -137,7 +137,6 @@
       <v-tab-content id="active-applicants" slot="content">
         <v-card>
           <applicants
-            v-if="!loading"
             :sortedApplicants="sortedActiveApplicants"
             :portfolios="portfolios"
             :progress="progress"
@@ -149,7 +148,6 @@
       <v-tab-content id="archived-applicants" slot="content">
         <v-card>
           <applicants
-            v-if="!loading"
             :sortedApplicants="sortedArchivedApplicants"
             :portfolios="portfolios"
             :progress="progress"
