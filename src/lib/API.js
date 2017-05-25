@@ -8,6 +8,9 @@ export default class API {
   static getApplicants() {
     return fetchJSON(`${API_URL}applicant`);
   }
+  static getArchivedApplicants() {
+    return fetchJSON(`${API_URL}applicant/archived`);
+  }
   static getPortfolios() {
     return fetchJSON(`${API_URL}portfolio`);
   }

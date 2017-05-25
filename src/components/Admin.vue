@@ -125,80 +125,41 @@
         </v-card-text>
       </v-card>
     </div>
-    <v-expansion-panel expand class="applicant-list mt-4 mb-4" v-if="!loading">
-      <v-expansion-panel-content v-for="applicant in sortedApplicants" :key="applicant._id" v-model="applicant.view">
-        <div slot="header">
-          <h5>
-            {{applicant.last_name}}, {{applicant.first_name}}
-            <span v-for="portfolio in portfolios[applicant._id]">
-              <v-chip
-                v-if="portfolio.update_date"
-                v-bind:class="{
-                    green: progress[applicant._id] == 100,
-                    orange: progress[applicant._id] != 100
-                }"
-                class="white--text">
-                {{ progress[applicant._id] == 100 ? 'Submitted:' : 'Updated:' }} {{portfolio.update_date | moment}}
-                <v-icon right>today</v-icon>
-              </v-chip>
-            </span>
-          </h5>
-          <v-progress-linear
-            :value="progress[applicant._id]"
-            height="15"
-            :error="progress[applicant._id] < 50"
-            :warning="progress[applicant._id] >= 50 && progress[applicant._id] < 90"
-            :success="progress[applicant._id] >= 90"
-            class="applicant-progress"></v-progress-linear>
-        </div>
+    <v-tabs class="mt-2" grow icons>
+      <v-tab-item href="#active-applicants" class="grey darken-3" slot="activators">
+        Active
+        <v-icon>list</v-icon>
+      </v-tab-item>
+      <v-tab-item href="#archived-applicants" class="grey darken-3" slot="activators">
+        Archived
+        <v-icon>archive</v-icon>
+      </v-tab-item>
+      <v-tab-content id="active-applicants" slot="content">
         <v-card>
-          <v-btn @click.native="createPortfolio(applicant)" class="orange darken-1" v-if="!portfolios[applicant._id] || portfolios[applicant._id].length == 0">Create Portfolio</v-btn>
-          <div v-for="portfolio in portfolios[applicant._id]">
-            <h5 class="mt-2"><strong>Email: </strong>{{applicant.email}}</h5>
-            <p><a v-bind:href="getPortfolioURL(portfolio.portfolio_id)" target="_blank">{{getPortfolioURL(portfolio.portfolio_id)}}</a></p>
-            <v-chip class="indigo white--text">
-              Created: {{portfolio.created | moment}}
-              <v-icon right>today</v-icon>
-            </v-chip>
-            <v-expansion-panel expand>
-              <v-expansion-panel-content v-for="standard in portfolio.standards" :key="standard.standard_id" v-if="standards[standard.standard_id]">
-                <div slot="header">
-                  <v-chip label class="red white--text" v-if="!standard.start_date">
-                    <v-icon left>report_problem</v-icon>Not Started
-                  </v-chip>
-                  <v-chip label class="grey white--text" v-if="(!standard.url && !standard.details) && standard.start_date">
-                    <v-icon left>flag</v-icon>Started: {{ standard.start_date | moment }}
-                  </v-chip>
-                  <v-chip label class="orange white--text" v-if="(standard.url || standard.details) && standard.update_date && !standard.submit_date">
-                    <v-icon left>save</v-icon>Saved: {{ standard.update_date | moment }}
-                  </v-chip>
-                  <v-chip label class="green white--text" v-if="standard.submit_date">
-                    <v-icon left>check</v-icon>Submitted: {{ standard.submit_date | moment }}
-                  </v-chip>
-                  <span class="standard-title">{{standards[standard.standard_id].title}}</span>
-                </div>
-                <v-card class="mt-2">
-                  <h6 v-if="!standard.details && !standard.url && standard.option == -1">No submission yet.</h6>
-                  <div v-if="standard.option != -1">
-                    <h6>Selected Option:</h6>
-                    <pre class="option grey lighten-3">{{standards[standard.standard_id].options[standard.option].name}}</pre>
-                  </div>
-                  <div v-if="standard.details" class="mt-3">
-                    <h6>Submission:</h6>
-                    <pre class="option grey lighten-3">{{standard.details}}</pre>
-                  </div>
-                  <div v-if="standard.url" class="mt-3">
-                    <h6>URL:</h6>
-                    <a v-bind:href="standard.url" target="_blank">{{standard.url}}</a>
-                  </div>
-                </v-card>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-btn error @click.native="archiveApplicantDialog($event, applicant)">Archive Applicant<v-icon right>delete</v-icon></v-btn>
-          </div>
+          <applicants
+            v-if="!loading"
+            :sortedApplicants="sortedActiveApplicants"
+            :portfolios="portfolios"
+            :progress="progress"
+            :standards="standards"
+            :archiveApplicantDialog="archiveApplicantDialog"
+            :createPortfolio="createPortfolio"></applicants>
         </v-card>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+      </v-tab-content>
+      <v-tab-content id="archived-applicants" slot="content">
+        <v-card>
+          <applicants
+            v-if="!loading"
+            :sortedApplicants="sortedArchivedApplicants"
+            :portfolios="portfolios"
+            :progress="progress"
+            :standards="standards"
+            :hideArchiveButton="true"></applicants>
+        </v-card>
+      </v-tab-content>
+    </v-tabs>
+
+
     <v-dialog v-model="archiveDialog">
       <v-card>
         <v-card-row>
@@ -221,12 +182,15 @@
 <script>
 import moment from 'moment';
 import API from '../lib/API';
-
+import Applicants from './Applicants';
 /* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-underscore-dangle */
 export default {
   name: 'admin',
+  components: {
+    applicants: Applicants,
+  },
   data() {
     return {
       loading: true,
@@ -235,6 +199,7 @@ export default {
       orderBy: 'Progress',
       portfolios: [],
       applicants: [],
+      archivedApplicants: [],
       search: '',
       progress: {},
       standards: API.getStandards(),
@@ -251,50 +216,12 @@ export default {
       },
     };
   },
-  filters: {
-    moment(date) {
-      return moment(date).calendar();
-    },
-  },
   computed: {
-    sortedApplicants() {
-      let sorted = this.applicants;
-      if (this.orderBy === 'Last Name') {
-        sorted = this.applicants.sort((a, b) => {
-          if (a.last_name < b.last_name) return -1;
-          if (a.last_name > b.last_name) return 1;
-          return 0;
-        });
-      } else if (this.orderBy === 'Progress') {
-        sorted = this.applicants.sort((a, b) => {
-          if (this.progress[a._id] < this.progress[b._id]) return -1;
-          if (this.progress[a._id] > this.progress[b._id]) return 1;
-          return 0;
-        });
-      } else if (this.orderBy === 'Created') {
-        sorted = this.applicants.sort((a, b) => {
-          const a_date = moment(this.portfolios[a._id][0].created).unix();
-          const b_date = moment(this.portfolios[b._id][0].created).unix();
-          if (a_date < b_date) return -1;
-          if (a_date > b_date) return 1;
-          return 0;
-        });
-      } else if (this.orderBy === 'Updated') {
-        sorted = this.applicants.sort((a, b) => {
-          const a_date = moment(this.portfolios[a._id][0].update_date).unix();
-          const b_date = moment(this.portfolios[b._id][0].update_date).unix();
-          if (a_date < b_date) return -1;
-          if (a_date > b_date) return 1;
-          return 0;
-        });
-      }
-
-      if (this.search.trim() !== '') {
-        const regExp = new RegExp(this.search, 'gi');
-        return sorted.filter(a => a.first_name.match(regExp) || a.last_name.match(regExp));
-      }
-
-      return this.sortOrder === 'ascending' ? sorted : sorted.reverse();
+    sortedActiveApplicants() {
+      return this.sortApplicants(this.applicants);
+    },
+    sortedArchivedApplicants() {
+      return this.sortApplicants(this.archivedApplicants);
     },
   },
   mounted() {
@@ -308,6 +235,14 @@ export default {
             a.view = false;
           });
           this.applicants = applicants;
+        }),
+      API
+        .getArchivedApplicants()
+        .then((archivedApplicants) => {
+          archivedApplicants.forEach((a) => {
+            a.view = false;
+          });
+          this.archivedApplicants = archivedApplicants;
         }),
       API
         .getPortfolios()
@@ -369,9 +304,6 @@ export default {
           applicant.view = true;
         });
     },
-    getPortfolioURL(portfolio_id) {
-      return `${window.location.origin}/#/portfolio/${portfolio_id}`;
-    },
     archiveApplicantDialog(event, applicant) {
       event.stopPropagation();
       this.archiveDialog = true;
@@ -385,40 +317,53 @@ export default {
         .then(() => {
           setTimeout(() => {
             const index = this.applicants.indexOf(applicant);
+            applicant.view = false;
+            this.archivedApplicants.push(applicant);
             this.applicants.splice(index, 1);
             this.archiving = false;
             this.archiveDialog = false;
           }, 800);
         });
     },
+    sortApplicants(applicants) {
+      let sorted = applicants;
+      if (this.orderBy === 'Last Name') {
+        sorted = applicants.sort((a, b) => {
+          if (a.last_name < b.last_name) return -1;
+          if (a.last_name > b.last_name) return 1;
+          return 0;
+        });
+      } else if (this.orderBy === 'Progress') {
+        sorted = applicants.sort((a, b) => {
+          if (this.progress[a._id] < this.progress[b._id]) return -1;
+          if (this.progress[a._id] > this.progress[b._id]) return 1;
+          return 0;
+        });
+      } else if (this.orderBy === 'Created') {
+        sorted = applicants.sort((a, b) => {
+          const a_date = moment(this.portfolios[a._id][0].created).unix();
+          const b_date = moment(this.portfolios[b._id][0].created).unix();
+          if (a_date < b_date) return -1;
+          if (a_date > b_date) return 1;
+          return 0;
+        });
+      } else if (this.orderBy === 'Updated') {
+        sorted = applicants.sort((a, b) => {
+          const a_date = moment(this.portfolios[a._id][0].update_date).unix();
+          const b_date = moment(this.portfolios[b._id][0].update_date).unix();
+          if (a_date < b_date) return -1;
+          if (a_date > b_date) return 1;
+          return 0;
+        });
+      }
+
+      if (this.search.trim() !== '') {
+        const regExp = new RegExp(this.search, 'gi');
+        return sorted.filter(a => a.first_name.match(regExp) || a.last_name.match(regExp));
+      }
+
+      return this.sortOrder === 'ascending' ? sorted : sorted.reverse();
+    },
   },
 };
 </script>
-
-<style scoped>
-  .applicant-list {
-    width: 70vw;
-  }
-
-  .applicant-progress {
-    display: flex;
-  }
-
-  .details {
-    font-family: inherit;
-    word-wrap: break-word;
-    white-space: pre-wrap;
-  }
-
-  .expansion-panel li {
-    padding: 1.5em;
-  }
-
-  .standard-title {
-    font-size: 1.25em;
-  }
-
-  .expansion-panel__header > div {
-    width: 100%;
-  }
-</style>
