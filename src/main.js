@@ -12,8 +12,8 @@ Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 
-if (localStorage.version !== '1.1.1') {
-  localStorage.version = '1.1.1';
+if (localStorage.version !== '1.2.0') {
+  localStorage.version = '1.2.0';
   window.location.reload(true);
 }
 
@@ -22,5 +22,7 @@ new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App },
+  components: {
+    App
+  },
 });
