@@ -128,11 +128,11 @@
       <v-tabs-bar slot="activators">
         <v-tabs-slider></v-tabs-slider>
         <v-tabs-item href="#active-applicants" class="grey darken-3 white--text">
-          Active
+          <span>Active <v-chip class="red white--text">{{sortedActiveApplicants.length}}</v-chip></span>
           <v-icon>list</v-icon>
         </v-tabs-item>
         <v-tabs-item href="#archived-applicants" class="grey darken-3 white--text">
-          Archived
+          <span>Archived <v-chip class="red white--text">{{sortedArchivedApplicants.length}}</v-chip></span>
           <v-icon>archive</v-icon>
         </v-tabs-item>
       </v-tabs-bar>
