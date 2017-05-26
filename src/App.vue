@@ -1,5 +1,5 @@
 <template>
-  <v-app id="app" dark>
+  <v-app id="app">
     <v-toolbar class="grey darken-3">
       <v-toolbar-title>
         <div>
@@ -8,11 +8,9 @@
       </v-toolbar-title>
     </v-toolbar>
     <main>
-      <v-content>
-        <v-container fluid class="main-content">
-          <router-view></router-view>
-        </v-container>
-      </v-content>
+      <v-container fluid class="main-content">
+        <router-view></router-view>
+      </v-container>
     </main>
     <v-footer class="footer grey darken-3">
       <small>© 2017 Galvanize, Inc. All Rights Reserved.</small>

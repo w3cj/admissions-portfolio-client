@@ -59,7 +59,7 @@
                 <h5><strong>Options:</strong></h5>
                 <span>You will be required to choose 1 option.</span>
                 <div v-for="(option, index) in standard.options">
-                  <h6><v-radio primary :label="'Option ' + (index + 1) + ': ' + option.name" v-model="standard.option" :value="index" light /></h6>
+                  <h6><v-radio primary :label="'Option ' + (index + 1) + ': ' + option.name" v-model="standard.option" :value="index" /></h6>
                   <pre class="option" v-html="option.content"></pre>
                   <br>
                 </div>
@@ -67,7 +67,7 @@
                   Choose an option.
                 </v-alert>
                 <div v-if="standard.option != -1 && !standard.begin">
-                  <v-btn class="orange darken-1" v-on:click.native="startStandard(standard)">I Have Started Working on this Standard</v-btn>
+                  <v-btn class="orange darken-1 white--text" v-on:click.native="startStandard(standard)">I Have Started Working on this Standard</v-btn>
                   <br>
                   <span>Click the button above when you begin working on this standard. It is OK if you change what option you decide to do.</span>
                 </div>
@@ -75,11 +75,11 @@
                   <h6>Submission:</h6>
                   <p>{{standard.options[standard.option].name}}</p>
                   <span>Enter your submission details below. URL can be a link to a document, image, video, code sample, github repo etc. Details can be a description of the URL or a write up of the given option.</span>
-                  <v-row row>
-                    <v-col xs2>
+                  <v-layout row wrap>
+                    <v-flex xs2>
                       <v-subheader>URL:</v-subheader>
-                    </v-col>
-                    <v-col xs10>
+                    </v-flex>
+                    <v-flex xs10>
                       <v-text-field
                         v-model="standard.url"
                         name="url"
@@ -88,11 +88,11 @@
                         v-bind:rules="urlRules"
                         type="url"
                       ></v-text-field>
-                    </v-col>
-                    <v-col xs2>
+                    </v-flex>
+                    <v-flex xs2>
                       <v-subheader>Details:</v-subheader>
-                    </v-col>
-                    <v-col xs10>
+                    </v-flex>
+                    <v-flex xs10>
                       <v-text-field
                         v-model="standard.details"
                         name="details"
@@ -100,37 +100,39 @@
                         prepend-icon="description"
                         multi-line
                       ></v-text-field>
-                    </v-col>
-                    <v-col xs2>
-                    </v-col>
-                    <v-col xs10>
-                      <v-btn class="orange darken-1" v-on:click.native="saveStandard(standard)" :disabled="!validStandard(standard)">Save</v-btn>
-                      <v-dialog v-model="standard.finishedSubmitting" overlay>
-                        <v-btn slot="activator" class="green darken-1" v-if="validStandard(standard) && (standard.url || standard.details)" :disabled="!validStandard(standard)">Submit</v-btn>
-                        <v-card-row>
-                          <v-card-title>Are you sure?</v-card-title>
-                        </v-card-row>
-                        <v-card-row>
-                          <v-card-text>
-                            This will send your submission to the admissions team for:
-                            <br />
-                            <br />
-                            Standard: <strong>{{standard.title}}</strong>
-                            <br />
-                            Option: <strong>{{standard.options[standard.option].name}}</strong>
-                            <br />
-                            <br />
-                            Be sure to double check your URL and details.
-                            <br />
-                            <small>Click anywhere outside this dialog to cancel.</small>
-                          </v-card-text>
-                        </v-card-row>
-                        <v-card-row actions>
-                          <v-btn class="green--text darken-1" flat="flat" @click.native="submitStandard(standard); standard.finishedSubmitting = false;">Submit</v-btn>
-                        </v-card-row>
+                    </v-flex>
+                    <v-flex xs2>
+                    </v-flex>
+                    <v-flex xs10>
+                      <v-btn class="orange darken-1 white--text" v-on:click.native="saveStandard(standard)" :disabled="!validStandard(standard)">Save</v-btn>
+                      <v-dialog v-model="standard.finishedSubmitting">
+                        <v-btn slot="activator" class="green darken-1 white--text" v-if="validStandard(standard) && (standard.url || standard.details)" :disabled="!validStandard(standard)">Submit</v-btn>
+                        <v-card>
+                          <v-card-row>
+                            <v-card-title>Are you sure?</v-card-title>
+                          </v-card-row>
+                          <v-card-row>
+                            <v-card-text>
+                              This will send your submission to the admissions team for:
+                              <br />
+                              <br />
+                              Standard: <strong>{{standard.title}}</strong>
+                              <br />
+                              Option: <strong>{{standard.options[standard.option].name}}</strong>
+                              <br />
+                              <br />
+                              Be sure to double check your URL and details.
+                              <br />
+                              <small>Click anywhere outside this dialog to cancel.</small>
+                            </v-card-text>
+                          </v-card-row>
+                          <v-card-row actions>
+                            <v-btn class="green--text darken-1" flat="flat" @click.native="submitStandard(standard); standard.finishedSubmitting = false;">Submit</v-btn>
+                          </v-card-row>
+                        </v-card>
                       </v-dialog>
-                    </v-col>
-                  </v-row>
+                    </v-flex>
+                  </v-layout>
                 </div>
               </div>
               <center v-if="standard.loading">

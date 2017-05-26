@@ -1,54 +1,54 @@
 <template>
   <div class="landing">
     <h2>Applicants</h2>
-    <v-btn v-if="!create" class="green darken-1" @click.native="create = true">Add Applicant</v-btn>
+    <v-btn v-if="!create" class="green darken-1 white--text" @click.native="create = true">Add Applicant</v-btn>
     <v-card v-if="create" class="grey lighten-4 elevation-0">
       <v-card-text>
         <v-container fluid>
-          <v-row row v-if="creatingApplicant">
-            <v-col xs12>
+          <v-layout row v-if="creatingApplicant">
+            <v-flex xs12>
               <center>
                 <v-progress-circular indeterminate class="green--text" />
               </center>
-            </v-col>
-          </v-row>
+            </v-flex>
+          </v-layout>
           <div v-if="!creatingApplicant">
-            <v-row row v-if="createError">
-              <v-col xs12>
+            <v-layout row v-if="createError">
+              <v-flex xs12>
                 <p class="text-xs-center red--text">Error creating applicant. Try again.</p>
-              </v-col>
-            </v-row>
-            <v-row row>
-              <v-col xs12 sm4>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12 sm4>
                 <v-subheader>First Name</v-subheader>
-              </v-col>
-              <v-col xs12 sm8>
+              </v-flex>
+              <v-flex xs12 sm8>
                 <v-text-field
                   label="First Name"
                   single-line
                   prepend-icon="person"
                   v-model="applicant.first_name"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row row>
-              <v-col xs12 sm4>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12 sm4>
                 <v-subheader>Last Name</v-subheader>
-              </v-col>
-              <v-col xs12 sm8>
+              </v-flex>
+              <v-flex xs12 sm8>
                 <v-text-field
                   label="Last Name"
                   single-line
                   prepend-icon="person"
                   v-model="applicant.last_name"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row row>
-              <v-col xs12 sm4>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12 sm4>
                 <v-subheader>Email</v-subheader>
-              </v-col>
-              <v-col xs12 sm8>
+              </v-flex>
+              <v-flex xs12 sm8>
                 <v-text-field
                   label="Email"
                   single-line
@@ -56,15 +56,15 @@
                   type="email"
                   v-model="applicant.email"
                 ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row row>
-              <v-col xs4>
-              </v-col>
-              <v-col xs8>
-                <v-btn class="orange darken-1" @click.native="createApplicant">Create Applicant</v-btn>
-              </v-col>
-            </v-row>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs4>
+              </v-flex>
+              <v-flex xs8>
+                <v-btn class="orange darken-1 white--text" @click.native="createApplicant">Create Applicant</v-btn>
+              </v-flex>
+            </v-layout>
           </div>
         </v-container>
       </v-card-text>
@@ -89,53 +89,55 @@
       <v-card class="grey lighten-4 elevation-0">
         <v-card-text>
           <v-container fluid>
-            <v-row>
-              <v-col xs3>
+            <v-layout row>
+              <v-flex xs3>
                 <v-subheader v-text="'Order By'" />
-              </v-col>
-              <v-col xs9>
+              </v-flex>
+              <v-flex xs9>
                 <v-select
                   v-bind:items="orderBys"
                   v-model="orderBy"
                   label="Order By"
-                  light
                   single-line
                   auto
                 />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col xs6>
-                <v-radio label="Ascending" primary v-model="sortOrder" value="ascending" light />
-              </v-col>
-              <v-col xs6>
-                <v-radio label="Descending" primary v-model="sortOrder" value="descending" light />
-              </v-col>
-            </v-row>
-            <v-row row>
-              <v-col xs12>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs6>
+                <v-radio label="Ascending" primary v-model="sortOrder" value="ascending" />
+              </v-flex>
+              <v-flex xs6>
+                <v-radio label="Descending" primary v-model="sortOrder" value="descending" />
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex xs12>
                 <v-text-field
                   name="search"
                   v-model="search"
                   label="Search Applicants"
                 ></v-text-field>
-              </v-col>
-            </v-row>
+              </v-flex>
+            </v-layout>
           </v-container>
         </v-card-text>
       </v-card>
     </div>
-    <v-tabs v-if="!loading" class="mt-2" grow icons>
-      <v-tab-item href="#active-applicants" class="grey darken-3" slot="activators">
-        Active
-        <v-icon>list</v-icon>
-      </v-tab-item>
-      <v-tab-item href="#archived-applicants" class="grey darken-3" slot="activators">
-        Archived
-        <v-icon>archive</v-icon>
-      </v-tab-item>
-      <v-tab-content id="active-applicants" slot="content">
-        <v-card>
+    <v-tabs grow icons class="mt-2" light>
+      <v-tabs-bar slot="activators">
+        <v-tabs-slider></v-tabs-slider>
+        <v-tabs-item href="#active-applicants" class="grey darken-3 white--text">
+          Active
+          <v-icon>list</v-icon>
+        </v-tabs-item>
+        <v-tabs-item href="#archived-applicants" class="grey darken-3 white--text">
+          Archived
+          <v-icon>archive</v-icon>
+        </v-tabs-item>
+      </v-tabs-bar>
+      <v-tabs-content id="active-applicants">
+        <v-card flat>
           <applicants
             :sortedApplicants="sortedActiveApplicants"
             :portfolios="portfolios"
@@ -144,9 +146,9 @@
             :archiveApplicantDialog="archiveApplicantDialog"
             :createPortfolio="createPortfolio"></applicants>
         </v-card>
-      </v-tab-content>
-      <v-tab-content id="archived-applicants" slot="content">
-        <v-card>
+      </v-tabs-content>
+      <v-tabs-content id="archived-applicants">
+        <v-card flat>
           <applicants
             :sortedApplicants="sortedArchivedApplicants"
             :portfolios="portfolios"
@@ -154,10 +156,8 @@
             :standards="standards"
             :hideArchiveButton="true"></applicants>
         </v-card>
-      </v-tab-content>
+      </v-tabs-content>
     </v-tabs>
-
-
     <v-dialog v-model="archiveDialog">
       <v-card>
         <v-card-row>
