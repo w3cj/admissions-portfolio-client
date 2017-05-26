@@ -12,8 +12,8 @@ Vue.use(Vuetify);
 
 Vue.config.productionTip = false;
 
-if (localStorage.version !== '1.2.1') {
-  localStorage.version = '1.2.1';
+if (localStorage.version !== '1.3.0') {
+  localStorage.version = '1.3.0';
   window.location.reload(true);
 }
 
