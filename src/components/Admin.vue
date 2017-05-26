@@ -124,7 +124,7 @@
         </v-card-text>
       </v-card>
     </div>
-    <v-tabs grow icons class="mt-2" light>
+    <v-tabs v-if="!loading" grow icons class="mt-2" light>
       <v-tabs-bar slot="activators">
         <v-tabs-slider></v-tabs-slider>
         <v-tabs-item href="#active-applicants" class="grey darken-3 white--text">
