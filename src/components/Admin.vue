@@ -257,6 +257,7 @@ export default {
               } else if (standard.update_date) {
                 total += 5;
               }
+              standard.update_status = undefined;
               return total;
             }, 0);
 

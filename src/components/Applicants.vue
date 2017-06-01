@@ -43,6 +43,9 @@
             <v-expansion-panel expand>
               <v-expansion-panel-content v-for="standard in portfolio.standards" :key="standard.standard_id" v-if="standards[standard.standard_id]">
                 <div slot="header">
+                  <v-chip label class="green white--text" v-if="standard.status_id == 1">
+                    <v-icon left>check</v-icon>Reviewed: {{ standard.status_date | moment }}
+                  </v-chip>
                   <v-chip label class="red white--text" v-if="!standard.start_date">
                     <v-icon left>report_problem</v-icon>Not Started
                   </v-chip>
@@ -71,6 +74,23 @@
                     <h6>URL:</h6>
                     <a v-bind:href="standard.url" target="_blank">{{standard.url}}</a>
                   </div>
+                  <div v-if="standard.submitted" class="mt-3">
+                    <v-layout row wrap>
+                      <v-flex xs4>
+                        <v-select
+                          :items="statuses"
+                          v-model="standard.update_status"
+                          label="Select Status"
+                          dark
+                          single-line
+                          auto
+                        ></v-select>
+                      </v-flex>
+                      <v-flex xs4>
+                        <v-btn @click.native="updateStandardStatus(portfolio.portfolio_id, standard)" class="indigo white--text" :disabled="!standard.update_status">Update Status</v-btn>
+                      </v-flex>
+                    </v-layout>
+                  </div>
                 </v-card>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -84,13 +104,36 @@
 
 <script>
 import moment from 'moment';
+import API from '../lib/API';
 
 export default {
   name: 'applicants',
   props: ['sortedApplicants', 'portfolios', 'progress', 'standards', 'hideArchiveButton', 'archiveApplicantDialog', 'createPortfolio'],
+  data() {
+    return {
+      statuses: [
+        {
+          id: 1,
+          text: 'Reviewed',
+        },
+        {
+          id: 0,
+          text: 'Re-Submit',
+        },
+      ],
+    };
+  },
   methods: {
     getPortfolioURL(portfolio_id) {
       return `${window.location.origin}/#/portfolio/${portfolio_id}`;
+    },
+    updateStandardStatus(portfolio_id, standard) {
+      API
+        .updateStandardStatus(portfolio_id, standard.standard_id, standard.update_status.id)
+        .then((result) => {
+          console.log(result);
+          this.$set(standard, 'status_id', standard.update_status.id);
+        });
     },
   },
   filters: {

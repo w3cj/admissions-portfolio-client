@@ -38,6 +38,9 @@ export default class API {
   static submitStandard(portfolioId, standardId, submission) {
     return postJSON(`${API_URL}portfolio/${portfolioId}/standard/${standardId}/submit`, submission);
   }
+  static updateStandardStatus(portfolioId, standardId, statusId) {
+    return postJSON(`${API_URL}portfolio/${portfolioId}/standard/${standardId}/status/${statusId}`);
+  }
   static getStandards() {
     return standards.map((s) => {
       /* eslint-disable no-param-reassign */
