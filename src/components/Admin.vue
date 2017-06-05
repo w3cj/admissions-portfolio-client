@@ -195,7 +195,7 @@ export default {
       orderBys: ['Last Name', 'Progress', 'Created', 'Updated'],
       sortOrder: 'descending',
       orderBy: 'Progress',
-      portfolios: [],
+      portfolios: {},
       applicants: [],
       archivedApplicants: [],
       search: '',
@@ -216,7 +216,15 @@ export default {
   },
   computed: {
     sortedActiveApplicants() {
-      return this.sortApplicants(this.applicants);
+      const sortedActiveApplicants = this.sortApplicants(this.applicants);
+      const notReadyForInterview = sortedActiveApplicants.filter((applicant) => {
+        const portfolio = this.portfolios[applicant._id][0];
+        const readyForInterview = Object.keys(portfolio.standards).every((standard_id) => {
+          return portfolio.standards[standard_id].status_id == 1;
+        });
+        return !readyForInterview;
+      });
+      return notReadyForInterview;
     },
     sortedArchivedApplicants() {
       return this.sortApplicants(this.archivedApplicants);
