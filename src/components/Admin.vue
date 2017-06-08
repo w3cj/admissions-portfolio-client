@@ -128,8 +128,12 @@
       <v-tabs-bar slot="activators">
         <v-tabs-slider></v-tabs-slider>
         <v-tabs-item href="#active-applicants" class="grey darken-3 white--text">
-          <span>Active <v-chip class="red white--text">{{sortedActiveApplicants.length}}</v-chip></span>
+          <span>Active <v-chip class="red white--text">{{sortedActiveApplicants.notReady.length}}</v-chip></span>
           <v-icon>list</v-icon>
+        </v-tabs-item>
+        <v-tabs-item href="#interview-applicants" class="grey darken-3 white--text">
+          <span>Interview<v-chip class="red white--text">{{sortedActiveApplicants.ready.length}}</v-chip></span>
+          <v-icon>people</v-icon>
         </v-tabs-item>
         <v-tabs-item href="#archived-applicants" class="grey darken-3 white--text">
           <span>Archived <v-chip class="red white--text">{{sortedArchivedApplicants.length}}</v-chip></span>
@@ -139,7 +143,18 @@
       <v-tabs-content id="active-applicants">
         <v-card flat>
           <applicants
-            :sortedApplicants="sortedActiveApplicants"
+            :sortedApplicants="sortedActiveApplicants.notReady"
+            :portfolios="portfolios"
+            :progress="progress"
+            :standards="standards"
+            :archiveApplicantDialog="archiveApplicantDialog"
+            :createPortfolio="createPortfolio"></applicants>
+        </v-card>
+      </v-tabs-content>
+      <v-tabs-content id="interview-applicants">
+        <v-card flat>
+          <applicants
+            :sortedApplicants="sortedActiveApplicants.ready"
             :portfolios="portfolios"
             :progress="progress"
             :standards="standards"
@@ -217,14 +232,23 @@ export default {
   computed: {
     sortedActiveApplicants() {
       const sortedActiveApplicants = this.sortApplicants(this.applicants);
-      const notReadyForInterview = sortedActiveApplicants.filter((applicant) => {
+      const applicants = {
+        notReady: [],
+        ready: [],
+      };
+      sortedActiveApplicants.forEach((applicant) => {
         const portfolio = this.portfolios[applicant._id][0];
         const readyForInterview = Object.keys(portfolio.standards).every((standard_id) => {
           return portfolio.standards[standard_id].status_id == 1;
         });
-        return !readyForInterview;
+        if (readyForInterview) {
+          console.log('here');
+          applicants.ready.push(applicant);
+        } else {
+          applicants.notReady.push(applicant);
+        }
       });
-      return notReadyForInterview;
+      return applicants;
     },
     sortedArchivedApplicants() {
       return this.sortApplicants(this.archivedApplicants);
