@@ -237,12 +237,14 @@ export default {
         ready: [],
       };
       sortedActiveApplicants.forEach((applicant) => {
+        if (!this.portfolios[applicant._id]) {
+          return applicants.notReady.push(applicant);
+        }
         const portfolio = this.portfolios[applicant._id][0];
         const readyForInterview = Object.keys(portfolio.standards).every((standard_id) => {
           return portfolio.standards[standard_id].status_id == 1;
         });
         if (readyForInterview) {
-          console.log('here');
           applicants.ready.push(applicant);
         } else {
           applicants.notReady.push(applicant);

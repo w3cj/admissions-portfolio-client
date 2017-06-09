@@ -74,7 +74,7 @@
                     <h6>URL:</h6>
                     <a v-bind:href="standard.url" target="_blank">{{standard.url}}</a>
                   </div>
-                  <div v-if="standard.submitted" class="mt-3">
+                  <div v-if="standard.submitted && standard.status_id != 1" class="mt-3">
                     <v-layout row wrap>
                       <v-flex xs4>
                         <v-select
@@ -87,7 +87,7 @@
                         ></v-select>
                       </v-flex>
                       <v-flex xs4>
-                        <v-btn @click.native="updateStandardStatus(portfolio.portfolio_id, standard)" class="indigo white--text" :disabled="!standard.update_status">Update Status</v-btn>
+                        <v-btn @click.native="updateStandardStatus(portfolio.portfolio_id, standard, applicant)" class="indigo white--text" :disabled="!standard.update_status">Update Status</v-btn>
                       </v-flex>
                     </v-layout>
                   </div>
@@ -127,12 +127,18 @@ export default {
     getPortfolioURL(portfolio_id) {
       return `${window.location.origin}/#/portfolio/${portfolio_id}`;
     },
-    updateStandardStatus(portfolio_id, standard) {
+    updateStandardStatus(portfolio_id, standard, applicant) {
       API
         .updateStandardStatus(portfolio_id, standard.standard_id, standard.update_status.id)
-        .then((result) => {
-          console.log(result);
+        .then(() => {
           this.$set(standard, 'status_id', standard.update_status.id);
+          const portfolio = this.portfolios[applicant._id][0];
+          const readyForInterview = Object.keys(portfolio.standards).every((standard_id) => {
+            return portfolio.standards[standard_id].status_id == 1;
+          });
+          if (readyForInterview) {
+            applicant.view = false;
+          }
         });
     },
   },
