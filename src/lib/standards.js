@@ -33,10 +33,9 @@ export default [{
     content: 'Solve one standard logic puzzle, and submit your solution and an explanation of how you approached the problem. You can find an explanation of <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/how-to-solve-logic-problems.png" target="_blank">how to solve this type of logic puzzle here</a> and <a href="http://www.cis.upenn.edu/~matuszek/cis554-2014/Images/logic_puzzles_2014.png" target="_blank">sample problems here</a>.',
   }, {
     name: 'Describe a Process',
-    content: `Submit a description of your process for solving for one of these problems:
+    content: `Submit a description of your process for solving for the following problem:
 <ul>
-<li>Problem 1. A lamp is not turning on in your living room. Describe the process of how you would figure out why the lamp is not working.</li>
-<li>Problem 2. Suppose you have three CPUs. Each needs to be connected to the same keyboard, mouse, and monitor (each of which are able to connect to multiple CPUs). You want your set-up to be organized, so find a way to make all nine connections without any of the cables crossing each other.</li>
+<li>Suppose you have three CPUs. Each needs to be connected to the same keyboard, mouse, and monitor (each of which are able to connect to multiple CPUs). You want your set-up to be organized, so find a way to make all nine connections without any of the cables crossing each other.</li>
 </ul>
 `,
   }, {
